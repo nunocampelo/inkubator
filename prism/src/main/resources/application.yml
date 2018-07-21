@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: info
+    pt.base.inkubator: debug
+
+jmx:
+  server:
+    host: localhost
+    port: 8081
