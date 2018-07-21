@@ -17,10 +17,12 @@ class AlgorithmAnalyser(private val executer: CpuTimedAlgorithmExecuter) {
     suspend fun <A, AR, AT : Algorithm<A, AR>> analyse(vararg algorithms: AT) {
 
         logger.info("Analysing {} in a channel", algorithms.contentToString())
-        val channel: Channel<Long> = Channel()
-        val results = mutableListOf<Long>()
 
         algorithms.map {
+
+            val channel: Channel<Long> = Channel()
+            val results = mutableListOf<Long>()
+
             launch {
                 executer.execute(channel, it, numberAlgorithmExecutions)
             }

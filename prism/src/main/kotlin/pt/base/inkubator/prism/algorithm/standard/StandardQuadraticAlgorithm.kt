@@ -4,12 +4,14 @@ import org.springframework.stereotype.Component
 import pt.base.inkubator.prism.algorithm.Algorithm
 
 @Component
-class StandardLinearAlgorithm : Algorithm<Long, Unit>(10000L, 10000000000L) {
+class StandardQuadraticAlgorithm : Algorithm<Long, Unit>(300L, 50000L) {
 
     override fun produceArgument(): Long = defaultLongArgumentProducer()
 
     override suspend fun exec(arg: Long) {
         for (i in 0..arg) {
+            for (j in 0..arg) {
+            }
         }
     }
 }

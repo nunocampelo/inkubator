@@ -13,8 +13,10 @@ import javax.management.remote.JMXConnectorFactory
 import javax.management.remote.JMXServiceURL
 
 @Configuration
-class JMXConfiguration(@Value("\${jmx.server.host:localhost}") private val jmxServerHost: String, @Value("\${jmx.server.port:8081}")
-private val jmxServerPort: Int) {
+class JMXConfiguration(
+    @Value("\${jmx.server.host:localhost}") private val jmxServerHost: String, @Value("\${jmx.server.port:8081}")
+    private val jmxServerPort: Int
+) {
 
     private val jmxServiceUrl: String
     private val rmiConnectorName = "connector:name=rmi"
@@ -59,19 +61,10 @@ private val jmxServerPort: Int) {
     @DependsOn("factoryBeanFactory")
     fun jmxServerConnectionFactory(): MBeanServerConnection? {
 
-        val url: JMXServiceURL
-        try {
+        val jmxc = JMXConnectorFactory.connect(JMXServiceURL(jmxServiceUrl), null)
+        jmxc.connect()
 
-            url = JMXServiceURL(jmxServiceUrl)
-            val jmxc = JMXConnectorFactory.connect(url, null)
-            jmxc.connect()
-
-            println("testme")
-            jmxServerConnection = jmxc.mBeanServerConnection
-        } catch (e: Exception) {
-
-        }
-
+        jmxServerConnection = jmxc.mBeanServerConnection
         return jmxServerConnection
     }
 }

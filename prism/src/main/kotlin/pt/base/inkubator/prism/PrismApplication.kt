@@ -8,12 +8,15 @@ import org.springframework.boot.runApplication
 import org.springframework.context.ConfigurableApplicationContext
 import pt.base.inkubator.prism.algorithm.AlgorithmAnalyser
 import pt.base.inkubator.prism.algorithm.standard.StandardLinearAlgorithm
+import pt.base.inkubator.prism.algorithm.standard.StandardQuadraticAlgorithm
+import pt.base.inkubator.prism.algorithm.standard.StandardSixDegreeAlgorithm
 
 @SpringBootApplication
 class
 PrismApplication(
     private val applicationContext: ConfigurableApplicationContext, private val analyser: AlgorithmAnalyser,
-    private val algorithm: StandardLinearAlgorithm
+    private val linearAlgorithm: StandardLinearAlgorithm, private val quadraticAlgorithm: StandardQuadraticAlgorithm,
+    private val sixDegreeAlgorithm: StandardSixDegreeAlgorithm
 ) : ApplicationRunner {
     companion object {
         val logger by logger()
@@ -24,9 +27,9 @@ PrismApplication(
         logger.info("Prism application started, buckle up for some cool computing...")
 
         runBlocking {
-            //             analyser.analyseInSequence(algorithm)
-            //            analyser.analyseInParallel(algorithm)
-            analyser.analyse(algorithm)
+            //            analyser.analyseInSequence(linearAlgorithm)
+//            analyser.analyseInParallel(linearAlgorithm)
+            analyser.analyse(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
         }
 
         close()

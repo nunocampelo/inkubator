@@ -1,10 +1,7 @@
 package pt.base.inkubator.prism.algorithm
 
-abstract class Algorithm<A, R> {
+abstract class Algorithm<A, R>(private val minLongArgument: Long, private val maxLongArgument: Long) {
     abstract suspend fun exec(arg: A): R
-
-    private val maxLongArgument = 1000000L
-    private val minLongArgument = 10L
 
     abstract fun produceArgument(): A
 

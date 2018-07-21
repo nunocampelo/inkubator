@@ -2,6 +2,18 @@
 #### spawning cool new kotlin projects
 <br>
 
+# prism
+#### brute force estimation of time complexity of any algorithm
+<br>
+
+## run it
+1. clone the project
+2. open it in your favorite IDE
+3. run *PrismApplication.kt*
+
+<br>
+<br>
+
 # kit
 #### showcasing kotlin scripting capabilities
 <br>
