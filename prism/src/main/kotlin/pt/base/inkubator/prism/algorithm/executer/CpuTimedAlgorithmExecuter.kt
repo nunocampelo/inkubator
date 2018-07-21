@@ -1,27 +1,40 @@
 package pt.base.inkubator.prism.algorithm.executer
 
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.cancelAndJoin
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.launch
 import org.springframework.beans.factory.BeanFactory
 import org.springframework.stereotype.Service
 import pt.base.inkubator.prism.algorithm.Algorithm
 import pt.base.inkubator.prism.algorithm.runner.CpuTimedAlgorithmRunner
+import pt.base.inkubator.prism.logger
 
 @Service
 class CpuTimedAlgorithmExecuter(private val beanFactory: BeanFactory) {
+    companion object {
+        val logger by logger()
+    }
 
     suspend fun <A, R> execute(channel: Channel<Long>, algorithm: Algorithm<A, R>, numberResults: Int) {
 
         var currentNumberResults: Int = 0
 
         while (currentNumberResults < numberResults) {
-            val result = doExecuteAlgorithm(algorithm)
-            if (result > 0L) {
-                channel.send(result)
-                currentNumberResults++
+
+            val jobExecution = async {
+
+                val result = doExecuteAlgorithm(algorithm)
+
+                if (result > 0L) {
+                    logger.info("sending $result")
+                    channel.send(result)
+                    currentNumberResults++
+                }
             }
+
+            delay(1500L)
+            jobExecution.cancel()
+//            val result = doExecuteAlgorithm(algorithm)
+
         }
         channel.close()
     }
@@ -70,5 +83,15 @@ class CpuTimedAlgorithmExecuter(private val beanFactory: BeanFactory) {
 
     private suspend fun <A, R> doExecuteAlgorithm(algorithm: Algorithm<A, R>, argument: A = algorithm.produceArgument()): Long {
         return beanFactory.getBean(CpuTimedAlgorithmRunner::class.java, algorithm, argument).run()
+//        val algorithmRunner = beanFactory.getBean(CpuTimedAlgorithmRunner::class.java, algorithm, argument)
+//
+//        val job = async {
+//            algorithmRunner.run()
+//        }
+//
+//        delay(500L)
+//        job.cancelAndJoin()
+//
+//        return job.getCompleted()
     }
 }
