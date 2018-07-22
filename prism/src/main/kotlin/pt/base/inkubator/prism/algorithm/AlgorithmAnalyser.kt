@@ -37,7 +37,7 @@ class AlgorithmAnalyser(private val executer: CpuTimedAlgorithmExecuter) {
         }
     }
 
-    suspend fun <A : Comparable<A>, AR, AT : Algorithm<A, AR>> analyseInSequence(vararg algorithms: AT) {
+    fun <A : Comparable<A>, AR, AT : Algorithm<A, AR>> analyseInSequence(vararg algorithms: AT) {
 
         logger.info("Analysing {} in sequence", algorithms.contentToString())
 

@@ -4,7 +4,7 @@ import kotlin.math.log10
 import kotlin.math.pow
 
 abstract class Algorithm<A : Comparable<A>, R>(private val minLongArgument: Long, private val maxLongArgument: Long) {
-    abstract suspend fun exec(arg: A): R
+    abstract fun exec(arg: A): R
 
     abstract fun produceArgument(): A
 

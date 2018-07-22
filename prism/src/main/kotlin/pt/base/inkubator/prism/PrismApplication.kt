@@ -1,6 +1,5 @@
 package pt.base.inkubator.prism
 
-import kotlinx.coroutines.experimental.runBlocking
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -26,12 +25,12 @@ PrismApplication(
 
         logger.info("Prism application started, buckle up for some cool computing...")
 
-        runBlocking {
-            analyser.analyseInSequence(linearAlgorithm)
-//            analyser.analyseInSequence(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
-//            analyser.analyseInParallel(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
-//            analyser.analyse(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
-        }
+        analyser.analyseInSequence(linearAlgorithm)
+//        runBlocking {
+//            //            analyser.analyseInSequence(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
+////            analyser.analyseInParallel(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
+////            analyser.analyse(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
+//        }
 
         close()
     }

@@ -31,7 +31,7 @@ class CpuTimedAlgorithmExecuter(private val beanFactory: BeanFactory) {
         }
     }
 
-    suspend fun <A : Comparable<A>, R> executeInSequence(algorithm: Algorithm<A, R>, minNumberResults: Int): List<Pair<A, Long>> {
+    fun <A : Comparable<A>, R> executeInSequence(algorithm: Algorithm<A, R>, minNumberResults: Int): List<Pair<A, Long>> {
 
         val results = mutableListOf<Pair<A, Long>>()
 
@@ -68,7 +68,7 @@ class CpuTimedAlgorithmExecuter(private val beanFactory: BeanFactory) {
 //        return results
 //    }
 
-    private suspend fun <A : Comparable<A>, R> doExecuteAlgorithm(
+    private fun <A : Comparable<A>, R> doExecuteAlgorithm(
         algorithm: Algorithm<A, R>,
         argument: A = algorithm.produceArgument()
     ): Pair<A, Long> {

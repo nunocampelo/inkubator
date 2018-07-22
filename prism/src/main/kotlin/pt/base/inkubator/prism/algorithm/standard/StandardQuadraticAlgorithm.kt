@@ -8,7 +8,7 @@ class StandardQuadraticAlgorithm : Algorithm<Long, Unit>(300L, 50000L) {
 
     override fun produceArgument(): Long = defaultLongArgumentProducer()
 
-    override suspend fun exec(arg: Long) {
+    override fun exec(arg: Long) {
         for (i in 0..arg) {
             for (j in 0..arg) {
             }

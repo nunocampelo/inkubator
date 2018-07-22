@@ -8,7 +8,7 @@ class StandardLinearAlgorithm : Algorithm<Long, Unit>(1000L, 10000000000L) {
 
     override fun produceArgument(): Long = defaultLongArgumentProducer()
 
-    override suspend fun exec(arg: Long) {
+    override  fun exec(arg: Long) {
         for (i in 0..arg) {
         }
     }

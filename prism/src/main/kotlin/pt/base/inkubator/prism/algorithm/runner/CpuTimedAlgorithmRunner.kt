@@ -12,14 +12,14 @@ abstract class CpuTimedAlgorithmRunner<A : Comparable<A>, R>(private val algorit
         val logger by logger()
     }
 
-    override suspend fun run(): Long {
+    override fun run(): Long {
+
+        logger.debug("Running {} on {} stating at {}", algorithm, argument)
 
         val initialTime = getCurrentCpuTime()
-        logger.debug("Running {} on {} stating at {}", algorithm, argument, initialTime)
-
         algorithm.exec(argument)
-
         val finalTime = getCurrentCpuTime()
+
         val execTime = finalTime - initialTime
 
         logger.debug(
