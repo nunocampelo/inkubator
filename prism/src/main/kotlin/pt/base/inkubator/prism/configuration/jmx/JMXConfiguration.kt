@@ -30,7 +30,7 @@ class JMXConfiguration(
     @Bean
     @Lazy
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    protected fun <A, R> wrapperFactory(algorithm: Algorithm<A, R>, argument: A): CpuTimedAlgorithmRunner<A, R> {
+    protected fun <A : Comparable<A>, R> wrapperFactory(algorithm: Algorithm<A, R>, argument: A): CpuTimedAlgorithmRunner<A, R> {
         return JMXTimedAlgorithmRunner<A, R>(jmxServerConnection, algorithm, argument)
     }
 

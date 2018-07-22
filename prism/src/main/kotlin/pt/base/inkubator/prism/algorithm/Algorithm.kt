@@ -1,6 +1,9 @@
 package pt.base.inkubator.prism.algorithm
 
-abstract class Algorithm<A, R>(private val minLongArgument: Long, private val maxLongArgument: Long) {
+import kotlin.math.log10
+import kotlin.math.pow
+
+abstract class Algorithm<A : Comparable<A>, R>(private val minLongArgument: Long, private val maxLongArgument: Long) {
     abstract suspend fun exec(arg: A): R
 
     abstract fun produceArgument(): A
@@ -10,6 +13,11 @@ abstract class Algorithm<A, R>(private val minLongArgument: Long, private val ma
     }
 
     protected fun defaultLongArgumentProducer(): Long {
-        return (minLongArgument + (maxLongArgument - minLongArgument) * Math.random()).toLong()
+//        return minLongArgument + ((maxLongArgument - minLongArgument) * Math.random()).toLong()
+
+        val exponent = (log10((maxLongArgument / minLongArgument).toDouble()) * Math.random()).toFloat()
+        println(exponent)
+
+        return minLongArgument * 10F.pow(exponent).toLong()
     }
 }

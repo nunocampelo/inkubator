@@ -3,7 +3,8 @@ package pt.base.inkubator.prism.algorithm.runner
 import pt.base.inkubator.prism.algorithm.Algorithm
 import pt.base.inkubator.prism.logger
 
-abstract class CpuTimedAlgorithmRunner<A, R>(private val algorithm: Algorithm<A, R>, private val argument: A) : AlgorithmRunner<A, R, Long>(
+abstract class CpuTimedAlgorithmRunner<A : Comparable<A>, R>(private val algorithm: Algorithm<A, R>, private val argument: A) : AlgorithmRunner<A, R,
+        Long>(
     algorithm,
     argument
 ) {

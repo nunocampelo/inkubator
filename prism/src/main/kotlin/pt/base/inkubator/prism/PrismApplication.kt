@@ -27,9 +27,10 @@ PrismApplication(
         logger.info("Prism application started, buckle up for some cool computing...")
 
         runBlocking {
-            //            analyser.analyseInSequence(linearAlgorithm)
-//            analyser.analyseInParallel(linearAlgorithm)
-            analyser.analyse(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
+            analyser.analyseInSequence(linearAlgorithm)
+//            analyser.analyseInSequence(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
+//            analyser.analyseInParallel(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
+//            analyser.analyse(linearAlgorithm, quadraticAlgorithm, sixDegreeAlgorithm)
         }
 
         close()

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component
 import pt.base.inkubator.prism.algorithm.Algorithm
 
 @Component
-class StandardLinearAlgorithm : Algorithm<Long, Unit>(10000L, 10000000000L) {
+class StandardLinearAlgorithm : Algorithm<Long, Unit>(1000L, 10000000000L) {
 
     override fun produceArgument(): Long = defaultLongArgumentProducer()
 
