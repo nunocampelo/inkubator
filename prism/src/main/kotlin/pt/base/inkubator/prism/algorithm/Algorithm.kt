@@ -14,10 +14,7 @@ abstract class Algorithm<A : Comparable<A>, R>(private val minLongArgument: Long
 
     protected fun defaultLongArgumentProducer(): Long {
 //        return minLongArgument + ((maxLongArgument - minLongArgument) * Math.random()).toLong()
-
         val exponent = (log10((maxLongArgument / minLongArgument).toDouble()) * Math.random()).toFloat()
-        println(exponent)
-
         return minLongArgument * 10F.pow(exponent).toLong()
     }
 }
