@@ -2,6 +2,16 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
+/tripping/.gradle
+/trippung/build/
+/tripping/out/
+/tripping/src/main/resources/static/
+:x
+/tripping/src/webapp/v2/node_modules/
+/tripping/src/webapp/v2/build/
+/tripping/src/webapp/v3/node_modules/
+/tripping/src/webapp/v3/build/
+
 # Compiled class file
 *.class
 

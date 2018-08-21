@@ -1,0 +1,104 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="redux/redux-store-mixin.html">
+
+<script src="./vendor/good-map.js" async defer></script>
+
+<dom-module id="trips-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      good-map {
+        display: block;
+        height: 400px;
+      }
+    </style>
+
+    <div class="card">
+      <div class="circle">[[routesCount]]</div>
+      <h1>Trips</h1>
+      <good-map id="googleMap" api-key="AIzaSyB4z0tiyJJdQyi-Md0awocjBAryJjidVg0" latitude="30" longitude="-100" zoom="2" map-options='{"mapTypeId": "satellite"}'>
+      </good-map>
+    </div>
+  </template>
+
+  <script>
+    class TripsView extends ReduxStoreMixin(Polymer.Element){
+      
+      static get is() {
+        return 'trips-view';
+      }
+
+      static get properties(){
+        return {
+          routes: {
+            type: Array,
+            statePath: 'routes'
+          },
+          routesCount: {
+            type:Number,
+            computed: 'computeRoutesCount(routes)'
+          }
+        }
+      }
+
+      constructor() {
+        super();
+      }
+
+      ready() {
+        super.ready();
+
+        this.internal = {
+          mapAPI: this.$.googleMap,
+        };
+
+        this.internal.mapAPI.addEventListener("google-map-ready", this.onMapReady.bind(this));
+      }
+
+      onMapReady(event) {
+        event.detail.addListener('click', this.onMapClick.bind(this));
+      }
+
+      onMapClick(event) {
+
+        var myLatLng = {
+          lat: 30,
+          lng: -100
+        };
+
+        var markerLbl = {
+          text: '1',
+          color: 'white',
+          fontWeight: 'bold'
+        };
+
+        var marker = new google.maps.Marker({
+          map: this.internal.mapAPI.map,
+          position: myLatLng,
+          draggable: true,
+          label: markerLbl
+        });
+      }
+
+      computeRoutesCount(routes){
+        return routes.length;
+      }
+    }
+
+    window.customElements.define(TripsView.is, TripsView);
+  </script>
+</dom-module>

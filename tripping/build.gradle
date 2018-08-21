@@ -1,0 +1,192 @@
+buildscript {
+    ext {
+        kotlinVersion = "1.2.51"
+        springBootVersion = "2.0.4.RELEASE"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+    }
+}
+
+apply plugin: "kotlin"
+apply plugin: "kotlin-spring"
+apply plugin: "eclipse"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+group = "pt.base.inkubator"
+version = "0.0.1-SNAPSHOT"
+sourceCompatibility = 1.8
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springCloudVersion = "Finchley.SR1"
+}
+
+//def inputFiles = "/src/webapp/build/production"
+//def outputDir = "${project.buildDir}/resources/static/"
+
+//task buildUIApp(type: Exec) {
+////    inputs.dir inputFiles
+////    outputs.dir outputDir
+////    doFirst {
+////    }
+//    println "building ui app..."
+//    workingDir "src/webapp"
+//    commandLine "cmd", "/c", "polymer build"
+//    doLast {
+//        println "finished building app"
+//        println "copying files into classpath..."
+//        copy {
+//            from "src/webapp/build/production"
+//            into "src/main/resources/static"
+//            println "files t successfully copied"
+//        }
+//    }
+//}
+
+//class BuildUI extends DefaultTask {
+//    @InputFile
+//    String sourceFiles
+//    @OutputDirectory
+//    String outputDirectory
+//
+////    @InputFiles
+////    FileCollection getSourceFiles() {
+////        return this.sourceFiles
+////    }
+//
+////    @OutputDirectory
+////    File getOutputDir() {
+////        return this.outputDirectory
+////    }
+//}
+
+//class Greeting extends DefaultTask {
+//    String message
+//    String recipient
+//
+//    @TaskAction
+//    void sayGreeting() {
+//        println "${message}, ${recipient}!"
+//    }
+//}
+
+//task testBuild(type: BuildUI) {
+//    sourceFiles "src/webapp/build/production/index.html"
+//    outputDirectory "src/main/resources/static"
+//    println "test"
+//}
+//
+//
+//task hello(type: Greeting) {
+//    group "Welcome"
+//    description "Produces a world greeting"
+//    message "Hello"
+//    recipient "World"
+//}
+
+//task incBuildUIApp(type: Exec) {
+////    inputs.dir(inputFiles)
+////    outputs.dir(outputDir)
+//    println "building ui app..."
+//    workingDir "src/webapp"
+//    commandLine "cmd", "/c", "polymer build"
+//    doLast {
+//        println "finished building app"
+//        println "copying files into classpath..."
+//        Copy {
+//            from "src/webapp/build/production"
+//            into "src/main/resources/static"
+//            println "files successfully copied"
+//        }
+//    }
+//}
+
+//task beforeTestMe2(type: Exec) {
+//    doFirst {
+//        println "building ui app..."
+//    }
+//    workingDir "src/webapp"
+//    commandLine "cmd", "/c", "polymer build"
+//    doLast {
+//        println "app builded"
+//    }
+//}
+//
+//task testMe2(type: Copy) {
+//    dependsOn beforeTestMe2
+//    doFirst {
+//        println "copying ui apps files..."
+//    }
+//    from "src/webapp/build/production"
+//    into "src/main/resources/static"
+//    doLast {
+//        println "files successfully copied"
+//    }
+//}
+
+task buildUIApp(type: Exec) {
+    doFirst {
+        println "building ui app..."
+    }
+    inputs.files "src/webapp/v2/src"
+    outputs.dir "src/webapp/v2/build/production"
+    workingDir "src/webapp/v2"
+    commandLine "cmd", "/c", "polymer build"
+    doLast {
+        println "app builded"
+    }
+}
+
+task updateUIApp(type: Copy) {
+    dependsOn buildUIApp
+    doFirst {
+        println "copying ui apps files..."
+    }
+    from "src/webapp/v2/build/production"
+    into "src/main/resources/static"
+    doLast {
+        println "files successfully copied"
+    }
+}
+
+compileKotlin.dependsOn updateUIApp
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.cloud:spring-cloud-starter-netflix-zuul")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compile("org.jetbrains.kotlin:kotlin-reflect")
+    runtime("com.h2database:h2")
+    runtime("org.postgresql:postgresql")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
